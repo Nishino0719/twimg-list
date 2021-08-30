@@ -1,16 +1,40 @@
+/* eslint-disable @next/next/no-img-element */
 import { useState } from 'react'
 import { Switch } from '@headlessui/react'
+import { useEffect } from 'react'
+import Twitter from 'twitter-lite'
+
+interface Tweet {}
+
+const mock: Tweet[] = []
+const client = new Twitter({
+  consumer_key: '',
+  consumer_secret: '',
+  access_token_key: '',
+  access_token_secret: ''
+})
 
 export default function Home() {
   const [lightMode, setLightMode] = useState(true)
 
+  var params = {
+    screen_name: '@flomorrissey',
+    count: 200,
+    exclude_replies: false,
+    trim_user: true,
+    include_rts: false
+  }
+  // useEffect(() => {
+  //   client.get('statuses/user_timeline',params,)
+  // }, [])
+
   return (
     <div className={` ${lightMode ? '' : 'dark'} bg-white`}>
-      <div className="absolute top-6 right-6 dark:bg-gray-800">
+      <div className="absolute top-6 right-6 dark:bg-darkblue">
         <Switch
           checked={lightMode}
           onChange={setLightMode}
-          className={`${lightMode ? ' bg-gray-200' : 'bg-gray-900'}
+          className={`${lightMode ? ' bg-gray-200' : ' bg-darkblue'}
           relative inline-flex flex-shrink-0 border-white  h-10 w-16 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75`}
         >
           <span
@@ -21,7 +45,7 @@ export default function Home() {
             {lightMode ? (
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className={`m-1 text-gray-900 stroke-current w-5 h-5`}
+                className={`m-1  text-darkblue stroke-current w-5 h-5`}
                 fill="none"
                 viewBox="0 0 24 24"
               >
@@ -35,7 +59,7 @@ export default function Home() {
             ) : (
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="w-5 h-5 m-1 text-gray-900 fill-current"
+                className="w-5 h-5 m-1 fill-current text-darkblue"
                 viewBox="0 0 20 20"
               >
                 <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
@@ -44,7 +68,9 @@ export default function Home() {
           </span>
         </Switch>
       </div>
-      <div className="h-screen dark:bg-gray-800"></div>
+      <div className="h-screen dark:bg-darkblue">
+        <p className="text-twitter">hello world</p>
+      </div>
     </div>
   )
 }
