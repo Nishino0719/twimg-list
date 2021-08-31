@@ -25,6 +25,7 @@ export const Search: React.FC<Props> = (props) => {
           </span>
           <input
             type="search"
+            value={props.userName}
             className={`py-2 pl-8 text-sm bg-gray-200 border-blue-400 rounded-full w-72 xl:w-80 focus:border-blue-400 ${
               props.userName.length !== 0 ? 'text-gray-900' : ''
             } focus:bg-white focus:text-gray-900`}

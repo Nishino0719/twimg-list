@@ -26,6 +26,7 @@ export default function Index() {
   const [user, setUser] = useState<User>()
   const [includeRT, setIncludeRT] = useState(false)
   const [error, setError] = useState(false)
+  const [userImage, setUserImage] = useState('')
 
   useEffect(() => {
     if (query.userName === undefined) {
@@ -39,6 +40,9 @@ export default function Index() {
           const data = response.data as Response
           setUser(data.user)
           setTweets(data.mediaTimelines)
+          var s = data.user.profile_image_url_https.slice(0, -10)
+          s += '200x200.jpg'
+          setUserImage(s)
         })
         .catch((error) => {
           console.log(error)
@@ -49,7 +53,7 @@ export default function Index() {
   }, [query.userName])
   return (
     <div className={` ${lightMode ? '' : 'dark'} bg-white`}>
-      <div className="min-h-screen dark:bg-darkblue">
+      <div className="relative min-h-screen dark:bg-darkblue">
         <div className="absolute top-5 left-5">
           <Search
             setUserName={setUserName}
@@ -113,7 +117,30 @@ export default function Index() {
             </div>
           </div>
         ) : (
-          <div className="py-20">
+          <div className="py-16">
+            <div className="py-5 border-b dark:text-white">
+              <div className="flex justify-center mx-10">
+                <img
+                  src={userImage}
+                  className="w-16 h-16 rounded-full md:w-32 md:h-32 "
+                  alt={user?.name}
+                />
+                <div className="ml-4 ">
+                  <a
+                    href={`https://twitter.com/${userName}`}
+                    target="_blank"
+                    className="text-lg font-bold cursor-pointer hover:underline"
+                    rel="noreferrer"
+                  >
+                    {user?.name}
+                  </a>
+                  <h3 className="text-base font-normal text-gray-500">
+                    @{userName}
+                  </h3>
+                  <p>{user?.description}</p>
+                </div>
+              </div>
+            </div>
             <div className="flex justify-center lg:mt-10 md:mt-5 ">
               <div className="box-border mx-auto md:masonry-2-col lg:masonry-3-col xl:masonry-4-col before:box-inherit after:box-inherit">
                 {tweets
