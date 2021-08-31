@@ -8,7 +8,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
   var params: Parameters = {
     screen_name: '@' + userName,
-    count: 100,
+    count: 50,
     exclude_replies: true,
     trim_user: false,
     include_rts: true
