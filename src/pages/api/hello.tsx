@@ -15,8 +15,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   //   const doc = await firestore().collection('groups').doc(docId).get()
   var params: Parameters = {
     screen_name: '@BarackObama',
-    count: 10,
-    exclude_replies: false,
+    count: 3,
+    exclude_replies: true,
     trim_user: true,
     include_rts: false
   }

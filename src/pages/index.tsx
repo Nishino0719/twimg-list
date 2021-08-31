@@ -32,13 +32,6 @@ const mock: Tweet[] = [
 export default function Home() {
   const [lightMode, setLightMode] = useState(true)
 
-  var params = {
-    screen_name: '@flomorrissey',
-    count: 200,
-    exclude_replies: false,
-    trim_user: true,
-    include_rts: false
-  }
   useEffect(() => {
     const f = async () => {
       await axios
