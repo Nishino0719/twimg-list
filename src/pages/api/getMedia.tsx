@@ -4,11 +4,12 @@ import { Parameters, ResponseMedia, UserTimeline } from '../../model/Twitter'
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-  const userName = req.body.userName as string
+  const reqs = req.body.userName as string
+  const userName = reqs.replace('@', '')
 
   var params: Parameters = {
     screen_name: '@' + userName,
-    count: 50,
+    count: 100,
     exclude_replies: true,
     trim_user: false,
     include_rts: true

@@ -32,10 +32,11 @@ export default function Index() {
     if (query.userName === undefined) {
       return
     }
-    setUserName(query.userName)
+    const userName = query.userName.replace('@', '')
+    setUserName(userName)
     const f = async () => {
       await axios
-        .post('/api/getMedia', { userName: query.userName })
+        .post('/api/getMedia', { userName })
         .then((response) => {
           const data = response.data as Response
           setUser(data.user)
