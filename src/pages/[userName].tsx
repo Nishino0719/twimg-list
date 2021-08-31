@@ -42,8 +42,9 @@ export default function Index() {
           const data = response.data as Response
           setUser(data.user)
           setTweets(data.mediaTimelines)
+          var extension = data.user.profile_image_url_https.slice(-3)
           var s = data.user.profile_image_url_https.slice(0, -10)
-          s += '200x200.jpg'
+          s += '200x200.' + extension
           setUserImage(s)
         })
         .catch((error) => {
