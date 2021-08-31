@@ -1,35 +1,22 @@
 /* eslint-disable @next/next/no-img-element */
 import { useState } from 'react'
 import { Switch } from '@headlessui/react'
-import axios from 'axios'
-import { ResponseMedia, User } from '../model/Twitter'
+import { ResponseMedia } from '../model/Twitter'
 import { Search } from '../components/search'
-
-interface Response {
-  user: User
-  mediaTimelines: ResponseMedia[]
-}
+import { useContext } from 'react'
+import { lightModeContext } from '../context/theme'
+import { useRouter } from 'next/dist/client/router'
 
 export default function Home() {
-  const [lightMode, setLightMode] = useState(true)
-  const [error, setError] = useState(false)
+  const router = useRouter()
+
+  const { lightMode, setLightMode } = useContext(lightModeContext)
   const [tweets, setTweets] = useState<ResponseMedia[]>([])
-  const [user, setUser] = useState<User>()
   const [userName, setUserName] = useState('')
   const [includeRT, setIncludeRT] = useState(false)
 
-  async function search() {
-    await axios
-      .post('/api/getMedia', { userName })
-      .then((response) => {
-        const data = response.data as Response
-        setUser(data.user)
-        setTweets(data.mediaTimelines)
-      })
-      .catch((error) => {
-        console.log(error)
-        setError(true)
-      })
+  function search() {
+    router.push(`/${userName}`)
   }
 
   return (
@@ -83,27 +70,6 @@ export default function Home() {
         </div>
 
         <div className="p-10">
-          {/* <p className="text-twitter">hello world</p> */}
-          <div className="flex justify-center lg:mt-10 md:mt-5 ">
-            <div className="box-border mx-auto md:masonry-2-col lg:masonry-3-col xl:masonry-4-col before:box-inherit after:box-inherit">
-              {tweets
-                .filter(
-                  (tweet) =>
-                    tweet.type === 'photo' || tweet.type === 'animated_gif'
-                )
-                .map((tweet: ResponseMedia) => {
-                  return (
-                    <div key={tweet.src} className="my-6 w-80 break-inside ">
-                      <img
-                        src={tweet.src}
-                        alt=""
-                        className="duration-300 transform cursor-pointer hover:scale-105"
-                      />
-                    </div>
-                  )
-                })}
-            </div>
-          </div>
           <div className="flex justify-center mt-10 mb-20 ">
             <button
               className="absolute w-auto px-4 py-2 font-semibold text-white disabled:cursor-not-allowed disabled:bg-opacity-50 bg-twitter text-md rounded-3xl"
