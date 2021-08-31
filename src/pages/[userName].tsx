@@ -75,7 +75,7 @@ export default function Index() {
             </div>
             <div className="text-center">
               <h3 className="mt-10 text-xl font-bold">
-                このアカウントは存在しない、または鍵のついたアカウントです。
+                存在しない、または鍵のついたアカウントです。
               </h3>
               <p className="mt-2 font-normal text-gray-500">
                 キーワードを変えて検索してみてください。
