@@ -103,7 +103,7 @@ export default function Index() {
                   <h3 className="text-base font-normal text-gray-500">
                     @{userName}
                   </h3>
-                  <p>{user?.description}</p>
+                  <p className="text-sm sm:text-base">{user?.description}</p>
                 </div>
               </div>
             </div>
@@ -120,7 +120,7 @@ export default function Index() {
                         <img
                           src={tweet.src}
                           alt=""
-                          className="duration-300 transform cursor-pointer hover:scale-105"
+                          className="duration-300 transform cursor-pointer sm:hover:scale-105"
                         />
                       </div>
                     )
