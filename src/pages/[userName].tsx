@@ -6,6 +6,7 @@ import { useRouter } from 'next/dist/client/router'
 import React, { useContext, useEffect, useState } from 'react'
 import { Search } from '../components/search'
 import { Theme } from '../components/theme'
+import { TweetImage } from '../components/TwitterImage'
 import { lightModeContext } from '../context/theme'
 import { ResponseMedia, User } from '../model/Twitter'
 
@@ -115,15 +116,7 @@ export default function Index() {
                       tweet.type === 'photo' || tweet.type === 'animated_gif'
                   )
                   .map((tweet: ResponseMedia) => {
-                    return (
-                      <div key={tweet.src} className="my-6 w-80 break-inside ">
-                        <img
-                          src={tweet.src}
-                          alt=""
-                          className="duration-300 transform cursor-pointer sm:hover:scale-105"
-                        />
-                      </div>
-                    )
+                    return <TweetImage key={tweet.src} tweet={tweet} />
                   })}
               </div>
             </div>
