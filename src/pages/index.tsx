@@ -5,45 +5,32 @@ import { Switch } from '@headlessui/react'
 import { useEffect } from 'react'
 import client from '../lib/Twitter'
 import axios from 'axios'
+import { ResponseMedia, User } from '../model/Twitter'
 
-interface Tweet {
-  url: string
+interface Response {
+  user: User
+  mediaTimelines: ResponseMedia[]
 }
-
-const mock: Tweet[] = [
-  { url: 'https://pbs.twimg.com/media/EroGSZtXAAc6vAy?format=jpg&name=medium' },
-  { url: 'https://pbs.twimg.com/media/EqvWfC3W8AAM0FX?format=jpg&name=large' },
-  { url: 'https://pbs.twimg.com/media/Eo4prXYXUA4sUJ1?format=jpg&name=large' },
-  { url: 'https://pbs.twimg.com/media/E9jBaMJVIAIEjbZ?format=jpg&name=large' },
-  {
-    url: 'https://pbs.twimg.com/media/E9zRh4rVUAsJHtT?format=jpg&name=4096x4096'
-  },
-  { url: 'https://pbs.twimg.com/media/E9-W8PoVQAoglxP?format=jpg&name=large' },
-  { url: 'https://pbs.twimg.com/media/E9j6LemWQAoJN2h?format=jpg&name=medium' },
-  { url: 'https://pbs.twimg.com/media/E924XqdVQAMnJ7h?format=jpg&name=large' },
-  {
-    url: 'https://pbs.twimg.com/media/E9yZAO7VkAMsE5b?format=jpg&name=4096x4096'
-  },
-  { url: 'https://pbs.twimg.com/media/E9plvx2VgAoKxFc?format=jpg&name=medium' },
-  { url: 'https://pbs.twimg.com/media/E99HistVkAYSUqS?format=jpg&name=large' },
-  { url: 'https://pbs.twimg.com/media/E9zYvPWUUA8o_Zn?format=jpg&name=large' }
-]
 
 export default function Home() {
   const [lightMode, setLightMode] = useState(true)
+  const [tweets, setTweets] = useState<ResponseMedia[]>([])
+  const [user, setUser] = useState<User>()
 
   useEffect(() => {
     const f = async () => {
       await axios
-        .post('/api/hello')
+        .post('/api/getMedia')
         .then((response) => {
-          console.log(response.data)
+          const data = response.data as Response
+          setUser(data.user)
+          setTweets(data.mediaTimelines)
         })
         .catch((error) => {
           console.log(error)
         })
     }
-    f()
+    // f()
   }, [])
 
   return (
@@ -91,16 +78,18 @@ export default function Home() {
           {/* <p className="text-twitter">hello world</p> */}
           <div className="flex justify-center lg:mt-10 md:mt-5 ">
             <div className="box-border mx-auto md:masonry-2-col lg:masonry-3-col xl:masonry-4-col before:box-inherit after:box-inherit">
-              {mock.map((tweet) => {
-                return (
-                  <div
-                    key={tweet.url}
-                    className="my-6 duration-300 transform cursor-pointer w-80 break-inside hover:scale-105"
-                  >
-                    <img src={tweet.url} alt="" />
-                  </div>
-                )
-              })}
+              {tweets
+                .filter((tweet) => tweet.type === 'photo')
+                .map((tweet: ResponseMedia) => {
+                  return (
+                    <div
+                      key={tweet.src}
+                      className="my-6 duration-300 transform cursor-pointer w-80 break-inside "
+                    >
+                      <img src={tweet.src} alt="" />
+                    </div>
+                  )
+                })}
             </div>
           </div>
         </div>
