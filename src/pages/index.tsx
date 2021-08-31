@@ -1,8 +1,10 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @next/next/no-img-element */
 import { useState } from 'react'
 import { Switch } from '@headlessui/react'
 import { useEffect } from 'react'
-import Twitter from 'twitter-lite'
+import client from '../lib/Twitter'
+import axios from 'axios'
 
 interface Tweet {
   url: string
@@ -26,12 +28,6 @@ const mock: Tweet[] = [
   { url: 'https://pbs.twimg.com/media/E99HistVkAYSUqS?format=jpg&name=large' },
   { url: 'https://pbs.twimg.com/media/E9zYvPWUUA8o_Zn?format=jpg&name=large' }
 ]
-const client = new Twitter({
-  consumer_key: '',
-  consumer_secret: '',
-  access_token_key: '',
-  access_token_secret: ''
-})
 
 export default function Home() {
   const [lightMode, setLightMode] = useState(true)
@@ -43,9 +39,19 @@ export default function Home() {
     trim_user: true,
     include_rts: false
   }
-  // useEffect(() => {
-  //   client.get('statuses/user_timeline',params,)
-  // }, [])
+  useEffect(() => {
+    const f = async () => {
+      await axios
+        .post('/api/hello')
+        .then((response) => {
+          console.log(response.data)
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+    }
+    f()
+  }, [])
 
   return (
     <div className={` ${lightMode ? '' : 'dark'} bg-white`}>
@@ -96,7 +102,7 @@ export default function Home() {
                 return (
                   <div
                     key={tweet.url}
-                    className="my-6 duration-300 transform cursor-pointer  w-80 break-inside hover:scale-105"
+                    className="my-6 duration-300 transform cursor-pointer w-80 break-inside hover:scale-105"
                   >
                     <img src={tweet.url} alt="" />
                   </div>
